@@ -2,10 +2,6 @@
 
 This template should help get you started developing a PWA with Vue 3 and Tailwind CSS in Vite.
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
 ## Project Setup
 
 ```sh
@@ -83,10 +79,14 @@ yarn add vite-plugin-pwa -D
 
 Edit your vite.config.js / vite.config.ts file and add the vite-plugin-pwa:
 ```js
-import { VitePWA } from 'vite-plugin-pwa'
-export default defineConfig({
-  plugins: [
-    VitePWA({ registerType: 'autoUpdate' })
-  ]
-})
+export default mergeConfig(
+    viteConfig,
+    defineConfig({
+        test: {
+            environment: 'jsdom',
+            exclude: [...configDefaults.exclude, 'e2e/*'],
+            root: fileURLToPath(new URL('./', import.meta.url))
+        }
+    })
+)
 ```
