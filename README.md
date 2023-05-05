@@ -1,10 +1,6 @@
-# mingleminded_vite
+# Bootstrap Vue 3 / PWA / Tailwind CSS / Vite
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+This template should help get you started developing a PWA with Vue 3 and Tailwind CSS in Vite.
 
 ## Customize configuration
 
@@ -19,17 +15,78 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 ### Compile and Minify for Production
 
 ```sh
-npm run build
+yarn build
 ```
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-npm run test:unit
+yarn test:unit
+```
+
+### Run production compiled version
+```
+cd dist && php -S 127.0.0.1:8000
+```
+
+## Steps done to create this starter package.
+
+#### Create project
+```
+npm create vite my-project
+cd my-project
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+yarn add vite-plugin-pwa -D
+```
+
+####  Install Tailwind CSS
+```
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+Specify the paths to template files in the content array of tailwind.config.js
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+Include Tailwind directives in ./src/assets/base.css
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Note: Vite detects what css file to include based on it being included in ./src/main.js
+
+####  Vite PWA plugin
+```
+yarn add vite-plugin-pwa -D
+```
+
+Edit your vite.config.js / vite.config.ts file and add the vite-plugin-pwa:
+```js
+import { VitePWA } from 'vite-plugin-pwa'
+export default defineConfig({
+  plugins: [
+    VitePWA({ registerType: 'autoUpdate' })
+  ]
+})
 ```
